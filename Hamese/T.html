@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Space Bar Timer</title>
+  <link rel="icon" type="image/png" href="Logo.png">
+
+  <style>
+    body {
+      font-family: 'Arial', sans-serif;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      margin: 0;
+      background-color: #000;
+      color: #fff;
+    }
+
+    #backToHome {
+      position: absolute;
+      top: 10px;
+      left: 10px;
+      text-decoration: none;
+      color: #fff;
+      font-size: 18px;
+      font-weight: bold;
+      border: 2px solid #fff; /* Border around the button */
+      padding: 5px 10px; /* Padding for the button */
+    }
+
+    p {
+      margin-bottom: 20px;
+      font-size: 20px; /* Increased font size */
+      font-weight: bold; /* Bold text */
+      color: #ffcc00; /* Yellow color */
+    }
+
+    #timer {
+      display: flex;
+      flex-direction: row; /* Horizontal layout */
+      justify-content: space-around;
+      align-items: center;
+      width: 80%;
+      text-align: center;
+      border: 2px solid #fff; /* Border around the timer */
+      padding: 20px; /* Padding for the timer */
+      border-radius: 10px; /* Rounded corners */
+    }
+
+    .timer-section {
+      text-align: center;
+      border-right: 2px solid #fff; /* Vertical border between sections */
+      padding-right: 10px; /* Padding to separate sections */
+    }
+
+    .timer-label {
+      font-size: 16px;
+      margin-bottom: 5px;
+    }
+
+    .timer-value {
+      font-size: 24px;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+
+<a href="Home.html" id="backToHome">Back to Home</a>
+
+<p>Press the space bar to start/stop the timer.</p>
+<div id="timer">
+  <div class="timer-section">
+    <div class="timer-label">Days</div>
+    <div class="timer-value" id="days">00</div>
+  </div>
+
+  <div class="timer-section">
+    <div class="timer-label">Hours</div>
+    <div class="timer-value" id="hours">00</div>
+  </div>
+
+  <div class="timer-section">
+    <div class="timer-label">Minutes</div>
+    <div class="timer-value" id="minutes">00</div>
+  </div>
+
+  <div class="timer-section">
+    <div class="timer-label">Seconds</div>
+    <div class="timer-value" id="seconds">00</div>
+  </div>
+
+  <div class="timer-section">
+    <div class="timer-label">Milliseconds</div>
+    <div class="timer-value" id="milliseconds">000</div>
+  </div>
+</div>
+
+<script>
+let startTime;
+let intervalId;
+
+function updateTimer() {
+  const currentTime = new Date().getTime();
+  const elapsedTime = currentTime - startTime;
+
+  const days = Math.floor(elapsedTime / (1000 * 60 * 60 * 24));
+  const hours = Math.floor((elapsedTime % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+  const minutes = Math.floor((elapsedTime % (1000 * 60 * 60)) / (1000 * 60));
+  const seconds = Math.floor((elapsedTime % (1000 * 60)) / 1000);
+  const milliseconds = elapsedTime % 1000;
+
+  document.getElementById('days').innerText = days.toString().padStart(2, '0');
+  document.getElementById('hours').innerText = hours.toString().padStart(2, '0');
+  document.getElementById('minutes').innerText = minutes.toString().padStart(2, '0');
+  document.getElementById('seconds').innerText = seconds.toString().padStart(2, '0');
+  document.getElementById('milliseconds').innerText = milliseconds.toString().padStart(3, '0');
+}
+
+document.addEventListener('keydown', function(event) {
+  if (event.code === 'Space') {
+    if (!startTime) {
+      startTime = new Date().getTime();
+      intervalId = setInterval(updateTimer, 100);
+    } else {
+      clearInterval(intervalId);
+      startTime = null;
+    }
+  }
+});
+</script>
+
+</body>
+</html>
